@@ -3,26 +3,19 @@
  * @author Amrit Malhi 1691806
  * @file mpu6050.h
  * @brief Interface abstraction of MPU6050 Gyro and Accelerometer
+
  * Features include reading initalization of sensor, reading of both sensors
  * and calibration of gyro. 
  * Note: sensor must be initialized by using init(); before calling any function which
  * manipulates the sensor.
+ *
+ * Distributed under the Boost Software License, Version 1.0.
+ *    (See accompanying file LICENSE_1_0.txt or copy at
+ *          https://www.boost.org/LICENSE_1_0.txt)
  */
 
 #ifndef MPU6050_HPP
 #define MPU6050_HPP
-
-/**
-*	Data Register Addresses for the MPU6050
-* 	Refer to MPU6050 Register Map and Descriptions document
-* 	for more information.
-* */
-
-#define PWR_MGMT_1 0x6B
-#define MPU_ADDR 0x68
-
-#define GYRO_CONFIG 0x1B
-#define ACC_CONFIG 0x1C
 
 #define RAD_TO_DEG 57.3
 
@@ -32,15 +25,26 @@
 class mpu6050 {
 private:
 
-	hwlib::i2c_bus_bit_banged_scl_sda mpu; // sensor bus
-	
-	const uint8_t ACC_OUT = 0x3B; // 
-	const uint8_t GYRO_OUT = 0x43;
+	hwlib::i2c_bus bus;
+	uint_fast8_t address; // i2c address of sensor
 	
 	/**
-	*	Commands for initializing the sensor
+	*	Data Register Addresses for the MPU6050
+	* 	Refer to MPU6050 Register Map and Descriptions document
+	* 	for more information.
+	* */
+
+	static constexpr const uint8_t PWR_MGMT_1 = 0x6B;
+	static constexpr const uint8_t GYRO_CONFIG = 0x1B;
+	static constexpr const uint8_t ACC_CONFIG = 0x1C;
+	static constexpr const uint8_t ACC_OUT = 0x3B;  
+	static constexpr const uint8_t GYRO_OUT = 0x43;	
+	
+	/**
+	*	Commands for initialization of the sensor
 	*/
-	const uint8_t CLK_SLCT[2] = {PWR_MGMT_1, 0x01}; // Wake up device with Y Gyro as reference clock
+
+	static const uint8_t CLK_SLCT[2] = {PWR_MGMT_1, 0x01}; // Wake up device with Y Gyro as reference clock
 	const uint8_t GYRO_RNG[2] = {GYRO_CONFIG, 0x08}; // Set Gyroscope full range to ± 250 °/s 
 	const uint8_t ACC_RNG[2] = {ACC_CONFIG, 0x00}; // Set Accelerometer full scale range to ± 2g
 
@@ -64,20 +68,21 @@ public:
 	* @param mpu 	i2c bus connected to mpu6050
 	*/
 	
-	mpu6050 ( hwlib::i2c_bus_bit_banged_scl_sda mpu ):
-		mpu (mpu)
+	mpu6050 ( hwlib::i2c_bus bus, const uint_fast8_t address = 0x68 ):
+		bus (bus),
+		address (address)
 	{
-	}
-	
-	/**
-	* @brief Initializes MPU6050 with appropiate configurations
-	* Configurations can be changed by modifiying commands
-	*/
-	
-	void init () {
-		mpu.write(MPU_ADDR, CLK_SLCT, 2);
-		mpu.write(MPU_ADDR, ACC_RNG, 2);
-		mpu.write(MPU_ADDR, GYRO_RNG, 2);
+		static constexpr const uint8_t init_sequence[] = {
+			CLK_SLCT, 
+			ACC_RNG,
+			GYRO_RNG
+		};
+
+		bus.write (
+			address,
+			init_sequence,
+			sizeof ( init_sequence ) / sizeof ( uint8_t )
+		);
 	}
 	
 	/**
@@ -129,7 +134,7 @@ public:
 	* @param n	Amount of calibrations to complete
 	*/
 	
-	void calibrate (uint16_t n = 1000 ) {
+	void calibrate_gyro (uint16_t n = 1000 ) {
 		int32_t gX = 0, gY = 0, gZ = 0;
 		
 		for (int i = 0; i < n; i++) {
