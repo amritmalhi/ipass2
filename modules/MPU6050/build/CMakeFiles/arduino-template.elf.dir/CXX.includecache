@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../../../libraries/hwlib/library/hwlib.hpp
+
+/home/ams/Documents/git/Build-environment/modules/MPU6050/src/libc-stub.cpp
+
+/home/ams/Documents/git/Build-environment/modules/MPU6050/src/main.cpp
+wrap-hwlib.hpp
+/home/ams/Documents/git/Build-environment/modules/MPU6050/src/wrap-hwlib.hpp
+mpu6050.h
+/home/ams/Documents/git/Build-environment/modules/MPU6050/src/mpu6050.h
+
+/home/ams/Documents/git/Build-environment/modules/MPU6050/src/mpu6050.h
+wrap-hwlib.hpp
+/home/ams/Documents/git/Build-environment/modules/MPU6050/src/wrap-hwlib.hpp
+
+/home/ams/Documents/git/Build-environment/modules/MPU6050/src/wrap-hwlib.cpp
+wrap-hwlib.hpp
+/home/ams/Documents/git/Build-environment/modules/MPU6050/src/wrap-hwlib.hpp
+
+/home/ams/Documents/git/Build-environment/modules/MPU6050/src/wrap-hwlib.hpp
+hwlib.hpp
+-
+

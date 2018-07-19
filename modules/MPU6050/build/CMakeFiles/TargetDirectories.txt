@@ -1,0 +1,6 @@
+/home/ams/Documents/git/Build-environment/modules/MPU6050/build/CMakeFiles/rebuild_cache.dir
+/home/ams/Documents/git/Build-environment/modules/MPU6050/build/CMakeFiles/edit_cache.dir
+/home/ams/Documents/git/Build-environment/modules/MPU6050/build/CMakeFiles/arduino-template.bin.dir
+/home/ams/Documents/git/Build-environment/modules/MPU6050/build/CMakeFiles/arduino-template.elf.dir
+/home/ams/Documents/git/Build-environment/modules/MPU6050/build/CMakeFiles/flash.dir
+/home/ams/Documents/git/Build-environment/modules/MPU6050/build/CMakeFiles/arduino-template.hex.dir

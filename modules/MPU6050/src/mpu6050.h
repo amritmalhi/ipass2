@@ -14,7 +14,7 @@
 #ifndef MPU6050_HPP
 #define MPU6050_HPP
 
-#include "hwlib.hpp"
+#include "wrap-hwlib.hpp"
 
 class mpu6050 {
 private:
